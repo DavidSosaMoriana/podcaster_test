@@ -238,3 +238,35 @@ export interface RouteParams {
 
 // Constantes de tiempo
 export const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+
+// Tipos para paginación
+export interface PaginationState {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+export interface UsePaginationReturn {
+  currentPage: number;
+  totalPages: number;
+  itemsPerPage: number;
+  goToPage: (page: number) => void;
+  goToNextPage: () => void;
+  goToPreviousPage: () => void;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  getItemsForCurrentPage: <T>(items: T[]) => T[];
+}
+
+export interface PaginationControlsProps {
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  onNextPage: () => void;
+  onPreviousPage: () => void;
+  onGoToPage: (page: number) => void;
+  totalItems: number;
+  itemsPerPage: number;
+}
