@@ -1,0 +1,80 @@
+.audio-player {
+  background-color: var(--color-background);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: var(--border-width) solid var(--color-border);
+  margin-bottom: var(--spacing-lg);
+}
+
+.audio-player__info {
+  margin-bottom: var(--spacing-md);
+}
+
+.audio-player__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.audio-player__controls {
+  width: 100%;
+}
+
+.audio-player__element {
+  width: 100%;
+  height: 54px;
+  outline: none;
+}
+
+.audio-player__element:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.audio-player__no-audio {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.audio-player__no-audio p {
+  margin: 0;
+  font-style: italic;
+}
+
+/* Estilos personalizados para el elemento audio (limitados por navegador) */
+.audio-player__element::-webkit-media-controls-panel {
+  background-color: var(--color-surface);
+}
+
+.audio-player__element::-webkit-media-controls-play-button,
+.audio-player__element::-webkit-media-controls-pause-button {
+  background-color: var(--color-primary);
+  border-radius: 50%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .audio-player {
+    padding: var(--spacing-md);
+  }
+
+  .audio-player__title {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .audio-player {
+    padding: var(--spacing-sm);
+  }
+
+  .audio-player__title {
+    font-size: var(--font-size-sm);
+  }
+}
