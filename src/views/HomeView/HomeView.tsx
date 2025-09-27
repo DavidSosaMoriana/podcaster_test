@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePodcasts, useLoadPodcasts } from '@/hooks';
+import { usePodcasts, useLoadPodcasts, usePagination } from '@/hooks';
 import PodcastCard from '@/components/PodcastCard';
 import SearchFilter from '@/components/SearchFilter';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import PaginationControls from '@/components/PaginationControls';
 import './HomeView.css';
 
 /**
@@ -13,6 +14,12 @@ import './HomeView.css';
 const HomeView: React.FC = () => {
   const navigate = useNavigate();
   const { filteredPodcasts, loading, error, filter, setFilter } = usePodcasts();
+
+  // Configurar paginación con 30 elementos por página
+  const pagination = usePagination(filteredPodcasts.length, 30);
+
+  // Obtener podcasts para la página actual
+  const paginatedPodcasts = pagination.getItemsForCurrentPage(filteredPodcasts);
 
   // Cargar podcasts al montar el componente
   useLoadPodcasts();
@@ -71,15 +78,31 @@ const HomeView: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div className="home-view__grid">
-          {filteredPodcasts.map(podcast => (
-            <PodcastCard
-              key={podcast.id}
-              podcast={podcast}
-              onClick={() => handlePodcastClick(podcast.id)}
+        <>
+          <div className="home-view__grid">
+            {paginatedPodcasts.map(podcast => (
+              <PodcastCard
+                key={podcast.id}
+                podcast={podcast}
+                onClick={() => handlePodcastClick(podcast.id)}
+              />
+            ))}
+          </div>
+
+          {filteredPodcasts.length > 0 && (
+            <PaginationControls
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              hasNextPage={pagination.hasNextPage}
+              hasPreviousPage={pagination.hasPreviousPage}
+              onNextPage={pagination.goToNextPage}
+              onPreviousPage={pagination.goToPreviousPage}
+              onGoToPage={pagination.goToPage}
+              totalItems={filteredPodcasts.length}
+              itemsPerPage={pagination.itemsPerPage}
             />
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   );
