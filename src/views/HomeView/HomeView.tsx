@@ -25,7 +25,7 @@ const HomeView: React.FC = () => {
     return (
       <div className="home-view__loading">
         <LoadingSpinner size="large" />
-        <p>Cargando podcasts...</p>
+        <p>Loading podcasts...</p>
       </div>
     );
   }

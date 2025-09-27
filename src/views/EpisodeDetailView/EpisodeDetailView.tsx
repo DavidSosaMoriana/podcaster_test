@@ -26,7 +26,7 @@ const EpisodeDetailView: React.FC = () => {
     return (
       <div className="episode-detail-view__loading">
         <LoadingSpinner size="large" />
-        <p>Cargando episodio...</p>
+        <p>Loading episode...</p>
       </div>
     );
   }
@@ -34,7 +34,7 @@ const EpisodeDetailView: React.FC = () => {
   if (error) {
     return (
       <div className="episode-detail-view__error">
-        <h2>Error al cargar el episodio</h2>
+        <h2>There was an error loading the episode</h2>
         <p>{error}</p>
       </div>
     );
@@ -43,8 +43,10 @@ const EpisodeDetailView: React.FC = () => {
   if (!podcast || !episode) {
     return (
       <div className="episode-detail-view__not-found">
-        <h2>Episodio no encontrado</h2>
-        <p>El episodio que buscas no existe o no se pudo cargar.</p>
+        <h2>Episode not found</h2>
+        <p>
+          The episode you are looking for does not exist or could not be loaded.
+        </p>
       </div>
     );
   }
@@ -64,7 +66,7 @@ const EpisodeDetailView: React.FC = () => {
 
             <div className="episode-detail-view__meta">
               <time className="episode-detail-view__date">
-                {new Date(episode.releaseDate).toLocaleDateString('es-ES', {
+                {new Date(episode.releaseDate).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',

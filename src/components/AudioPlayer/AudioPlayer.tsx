@@ -19,7 +19,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ episode }) => {
   return (
     <div className="audio-player">
       <div className="audio-player__info">
-        <h3 className="audio-player__title">Reproduciendo: {episode.title}</h3>
+        <h3 className="audio-player__title">Playing: {episode.title}</h3>
       </div>
 
       <div className="audio-player__controls">
@@ -28,17 +28,18 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ episode }) => {
           controls
           preload="metadata"
           className="audio-player__element"
+          lang="en"
         >
           <source src={episode.audioUrl} type="audio/mpeg" />
           <source src={episode.audioUrl} type="audio/mp4" />
           <source src={episode.audioUrl} type="audio/wav" />
-          Tu navegador no soporta el elemento de audio HTML5.
+          Your browser does not support the audio element.
         </audio>
       </div>
 
       {!episode.audioUrl && (
         <div className="audio-player__no-audio">
-          <p>No hay archivo de audio disponible para este episodio.</p>
+          <p>No audio file available for this episode.</p>
         </div>
       )}
     </div>
