@@ -34,16 +34,16 @@ const EpisodeList: React.FC<EpisodeListProps> = ({
   return (
     <div className="episode-list">
       <div className="episode-list__header">
-        <h2>Episodios: {episodes.length}</h2>
+        <h2>Episodes: {episodes.length}</h2>
       </div>
 
       <div className="episode-list__table-container">
         <table className="episode-list__table">
           <thead>
             <tr>
-              <th>Título</th>
-              <th>Fecha</th>
-              <th>Duración</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Length</th>
             </tr>
           </thead>
           <tbody>

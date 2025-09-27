@@ -17,7 +17,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   return (
     <div className={`loading-spinner loading-spinner--${size}`}>
       <div className="loading-spinner__circle"></div>
-      <span className="visually-hidden">Cargando...</span>
+      <span className="visually-hidden">Loading...</span>
     </div>
   );
 };

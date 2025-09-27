@@ -31,7 +31,7 @@ const PodcastSidebar: React.FC<PodcastSidebarProps> = ({ podcast }) => {
       </div>
 
       <div className="podcast-sidebar__description">
-        <h4>Descripción:</h4>
+        <h4>Description:</h4>
         <p>{podcast.description}</p>
       </div>
     </aside>

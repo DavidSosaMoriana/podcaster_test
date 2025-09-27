@@ -23,10 +23,10 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
         <input
           type="text"
           className="search-filter__input"
-          placeholder="Filtrar podcasts..."
+          placeholder="Filter podcasts..."
           value={value}
           onChange={e => onChange(e.target.value)}
-          aria-label="Filtrar podcasts por nombre o autor"
+          aria-label="Filter podcasts by name or author"
         />
       </div>
     </div>

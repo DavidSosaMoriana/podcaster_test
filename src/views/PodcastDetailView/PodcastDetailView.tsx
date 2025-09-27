@@ -24,7 +24,7 @@ const PodcastDetailView: React.FC = () => {
     return (
       <div className="podcast-detail-view__loading">
         <LoadingSpinner size="large" />
-        <p>Cargando podcast...</p>
+        <p>Loading podcast...</p>
       </div>
     );
   }
@@ -32,7 +32,7 @@ const PodcastDetailView: React.FC = () => {
   if (error) {
     return (
       <div className="podcast-detail-view__error">
-        <h2>Error al cargar el podcast</h2>
+        <h2>There was an error loading the podcast</h2>
         <p>{error}</p>
       </div>
     );
@@ -41,8 +41,8 @@ const PodcastDetailView: React.FC = () => {
   if (!podcast) {
     return (
       <div className="podcast-detail-view__not-found">
-        <h2>Podcast no encontrado</h2>
-        <p>El podcast que buscas no existe o no se pudo cargar.</p>
+        <h2>Podcast not found</h2>
+        <p>The podcast you are looking for does not exist or could not be loaded.</p>
       </div>
     );
   }
