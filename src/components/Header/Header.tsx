@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { useAppContext } from '@/context/AppContext';
@@ -8,16 +8,34 @@ import './Header.css';
 /**
  * Componente Header de la aplicación
  * Incluye el título como enlace a home y indicador de carga
+ * Al hacer click en el título limpia el filtro y navega a home
  */
 const Header: React.FC = () => {
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
+  const navigate = useNavigate();
+
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    // Si hay un filtro activo, limpiarlo
+    if (state.filter) {
+      dispatch({ type: 'SET_FILTER', payload: '' });
+    }
+    navigate('/');
+  };
 
   return (
     <header className="header">
       <div className="header__container">
-        <Link to="/" className="header__title">
+        <a
+          href="/"
+          className="header__title"
+          onClick={handleHomeClick}
+          role="button"
+          aria-label="Go to home and clear filters"
+        >
           Podcaster
-        </Link>
+        </a>
 
         <div className="header__actions">
           <ThemeToggle />

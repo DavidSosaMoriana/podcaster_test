@@ -64,10 +64,10 @@ const HomeView: React.FC = () => {
 
       {filteredPodcasts.length === 0 && filter ? (
         <div className="home-view__no-results">
-          <h2>No se encontraron podcasts</h2>
+          <h2>No podcasts were found</h2>
           <p>
-            No hay podcasts que coincidan con tu búsqueda "{filter}". Intenta
-            con otros términos.
+            No podcasts matching your search "{filter}" were found. Try
+            different terms.
           </p>
         </div>
       ) : (
