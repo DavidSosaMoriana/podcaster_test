@@ -3,6 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 import { usePodcasts } from '../usePodcasts';
 import { useLoadPodcasts, useClearError } from '../useLoadPodcasts';
 import { usePodcastDetail } from '../usePodcastDetail';
+import { usePagination } from '../usePagination';
 import { AppProvider, useAppContext } from '@/context/AppContext';
 import { podcastService } from '@/services/podcastService';
 
@@ -79,7 +80,7 @@ describe('Custom Hooks', () => {
         return { context, podcasts };
       });
 
-      // Set up podcasts first
+
       act(() => {
         result.current.context.dispatch({
           type: 'SET_PODCASTS',
@@ -87,7 +88,6 @@ describe('Custom Hooks', () => {
         });
       });
 
-      // Apply filter
       act(() => {
         result.current.podcasts.setFilter('Test');
       });
@@ -150,7 +150,6 @@ describe('Custom Hooks', () => {
         return { context, clearError };
       });
 
-      // Set error first
       act(() => {
         result.current.context.dispatch({
           type: 'SET_ERROR',
@@ -160,7 +159,6 @@ describe('Custom Hooks', () => {
 
       expect(result.current.context.state.error).toBe('Test error');
 
-      // Clear error
       act(() => {
         result.current.clearError();
       });
@@ -211,6 +209,187 @@ describe('Custom Hooks', () => {
 
       expect(result.current.podcast).toBe(null);
       expect(mockPodcastService.getPodcastDetail).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('usePagination', () => {
+    it('should initialize with correct default values', () => {
+      const { result } = renderHook(() => usePagination(100));
+
+      expect(result.current.currentPage).toBe(1);
+      expect(result.current.totalPages).toBe(4); 
+      expect(result.current.itemsPerPage).toBe(30);
+      expect(result.current.hasNextPage).toBe(true);
+      expect(result.current.hasPreviousPage).toBe(false);
+    });
+
+    it('should initialize with custom itemsPerPage and initialPage', () => {
+      const { result } = renderHook(() => usePagination(50, 10, 3));
+
+      expect(result.current.currentPage).toBe(3);
+      expect(result.current.totalPages).toBe(5); 
+      expect(result.current.itemsPerPage).toBe(10);
+      expect(result.current.hasNextPage).toBe(true);
+      expect(result.current.hasPreviousPage).toBe(true);
+    });
+
+    it('should handle empty dataset correctly', () => {
+      const { result } = renderHook(() => usePagination(0));
+
+      expect(result.current.currentPage).toBe(1);
+      expect(result.current.totalPages).toBe(1);
+      expect(result.current.hasNextPage).toBe(false);
+      expect(result.current.hasPreviousPage).toBe(false);
+    });
+
+    it('should navigate to next page correctly', () => {
+      const { result } = renderHook(() => usePagination(100));
+
+      act(() => {
+        result.current.goToNextPage();
+      });
+
+      expect(result.current.currentPage).toBe(2);
+      expect(result.current.hasNextPage).toBe(true);
+      expect(result.current.hasPreviousPage).toBe(true);
+    });
+
+    it('should navigate to previous page correctly', () => {
+      const { result } = renderHook(() => usePagination(100, 30, 3));
+
+      act(() => {
+        result.current.goToPreviousPage();
+      });
+
+      expect(result.current.currentPage).toBe(2);
+      expect(result.current.hasNextPage).toBe(true);
+      expect(result.current.hasPreviousPage).toBe(true);
+    });
+
+    it('should not go beyond last page', () => {
+      const { result } = renderHook(() => usePagination(100, 30, 4)); 
+
+      act(() => {
+        result.current.goToNextPage();
+      });
+
+      expect(result.current.currentPage).toBe(4);
+      expect(result.current.hasNextPage).toBe(false);
+    });
+
+    it('should not go below first page', () => {
+      const { result } = renderHook(() => usePagination(100));
+
+      act(() => {
+        result.current.goToPreviousPage();
+      });
+
+      expect(result.current.currentPage).toBe(1); 
+      expect(result.current.hasPreviousPage).toBe(false);
+    });
+
+    it('should go to specific page correctly', () => {
+      const { result } = renderHook(() => usePagination(100));
+
+      act(() => {
+        result.current.goToPage(3);
+      });
+
+      expect(result.current.currentPage).toBe(3);
+      expect(result.current.hasNextPage).toBe(true);
+      expect(result.current.hasPreviousPage).toBe(true);
+    });
+
+    it('should handle invalid page numbers', () => {
+      const { result } = renderHook(() => usePagination(100));
+
+      act(() => {
+        result.current.goToPage(0);
+      });
+
+      expect(result.current.currentPage).toBe(1);
+
+      act(() => {
+        result.current.goToPage(10);
+      });
+
+      expect(result.current.currentPage).toBe(4); 
+    });
+
+    it('should return correct items for current page', () => {
+      const { result } = renderHook(() => usePagination(100, 10));
+      const items = Array.from({ length: 25 }, (_, i) => `item-${i + 1}`);
+
+      let currentPageItems = result.current.getItemsForCurrentPage(items);
+      expect(currentPageItems).toEqual([
+        'item-1',
+        'item-2',
+        'item-3',
+        'item-4',
+        'item-5',
+        'item-6',
+        'item-7',
+        'item-8',
+        'item-9',
+        'item-10',
+      ]);
+
+      act(() => {
+        result.current.goToPage(2);
+      });
+
+      currentPageItems = result.current.getItemsForCurrentPage(items);
+      expect(currentPageItems).toEqual([
+        'item-11',
+        'item-12',
+        'item-13',
+        'item-14',
+        'item-15',
+        'item-16',
+        'item-17',
+        'item-18',
+        'item-19',
+        'item-20',
+      ]);
+
+      act(() => {
+        result.current.goToPage(3);
+      });
+
+      currentPageItems = result.current.getItemsForCurrentPage(items);
+      expect(currentPageItems).toEqual([
+        'item-21',
+        'item-22',
+        'item-23',
+        'item-24',
+        'item-25',
+      ]);
+    });
+
+    it('should handle empty items array', () => {
+      const { result } = renderHook(() => usePagination(0));
+      const items: string[] = [];
+
+      const currentPageItems = result.current.getItemsForCurrentPage(items);
+      expect(currentPageItems).toEqual([]);
+    });
+
+    it('should reset to valid page when totalItems changes', () => {
+      const { result, rerender } = renderHook(
+        ({ totalItems }) => usePagination(totalItems, 10),
+        { initialProps: { totalItems: 100 } }
+      );
+
+      act(() => {
+        result.current.goToPage(10);
+      });
+
+      expect(result.current.currentPage).toBe(10);
+
+      rerender({ totalItems: 25 });
+
+      expect(result.current.currentPage).toBe(3); 
+      expect(result.current.totalPages).toBe(3);
     });
   });
 });
