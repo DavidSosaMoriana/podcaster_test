@@ -1,8 +1,8 @@
-// Exportar todos los componentes desde un archivo central
 export { default as Layout } from './Layout';
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';
 export { default as LoadingSpinner } from './LoadingSpinner';
+export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as PodcastCard } from './PodcastCard';
 export { default as SearchFilter } from './SearchFilter';
 export { default as PodcastSidebar } from './PodcastSidebar';

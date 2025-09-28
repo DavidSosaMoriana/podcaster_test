@@ -1,0 +1,65 @@
+.loading-indicator {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 9999;
+  background-color: var(--color-background);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-indicator__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-indicator__circle {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-primary);
+  border-radius: 50%;
+  animation: loadingIndicatorSpin 1s linear infinite;
+}
+
+/* Animación específica para este indicador */
+@keyframes loadingIndicatorSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mostrar solo cuando está cargando */
+.loading-indicator[aria-live='polite'] {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Versión responsive */
+@media (max-width: 768px) {
+  .loading-indicator {
+    top: calc(var(--header-height) + var(--spacing-sm));
+    right: var(--spacing-sm);
+    padding: var(--spacing-xs);
+  }
+
+  .loading-indicator__circle {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Asegurar que el indicador esté siempre visible por encima de todo */
+.loading-indicator {
+  pointer-events: none; /* No interferir con clicks */
+}

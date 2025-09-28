@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import LoadingIndicator from '@/components/LoadingIndicator';
 import './Layout.css';
 
 interface LayoutProps {
@@ -9,7 +10,6 @@ interface LayoutProps {
 
 /**
  * Componente Layout principal de la aplicación
- * Proporciona la estructura básica con header y contenido
  */
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="layout__container">{children}</div>
       </main>
       <Footer />
+      <LoadingIndicator />
     </div>
   );
 };
